@@ -1,0 +1,31 @@
+import turtle
+import math
+
+def pie(t, n=5, r=50):
+    angle = (360 / n) / 2
+    rotate_angle = 90 + angle
+    base_length = 2 * r * math.sin(angle * math.pi / 180)
+    t.lt(180/n)
+    for i in range(n):
+        t.fd(r)
+        t.lt(rotate_angle)
+        t.fd(base_length)
+        t.lt(rotate_angle)
+        t.fd(r)
+        t.lt(180)
+    t.rt(180/n)
+
+def move(t, length):
+    t.pu()
+    t.fd(length)
+    t.pd()
+
+bob = turtle.Turtle()
+move(bob, -300)
+pie(bob, 9, 70)
+move(bob, 300)
+pie(bob, 10, 70)
+move(bob, 300)
+pie(bob, 12, 70)
+bob.hideturtle()
+turtle.mainloop()
