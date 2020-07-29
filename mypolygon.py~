@@ -44,11 +44,6 @@ an "arc" with an angle of 360 degrees and a given radius (r)
 def circle(t, r=50):
     arc(t, r, 360)
 
-def move(t, length):
-    t.pu()
-    t.fd(length)
-    t.pd()
-
 def main():
     bob = turtle.Turtle()
     polygon(bob, 4, 100)

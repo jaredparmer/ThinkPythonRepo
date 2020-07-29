@@ -1,0 +1,13 @@
+def check_fermat(a, b, c, n):
+    if n > 2 and (a**n + b**n == c**n):
+        print('Holy smokes, Fermat was wrong!')
+    else:
+        print("No, that doesn't work.")
+
+a = input('Give me a: ')
+b = input('Give me b: ')
+c = input('Give me c: ')
+n = input('Give me n: ')
+
+print(f"checking Fermat's Last Theorem with {a}, {b}, {c}, and {n}...")
+check_fermat(a, b, c, n)

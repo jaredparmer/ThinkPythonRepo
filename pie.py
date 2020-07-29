@@ -20,12 +20,16 @@ def move(t, length):
     t.fd(length)
     t.pd()
 
-bob = turtle.Turtle()
-move(bob, -300)
-pie(bob, 9, 70)
-move(bob, 300)
-pie(bob, 10, 70)
-move(bob, 300)
-pie(bob, 12, 70)
-bob.hideturtle()
-turtle.mainloop()
+def main():
+    bob = turtle.Turtle()
+    move(bob, -300)
+    pie(bob, 9, 70)
+    move(bob, 300)
+    pie(bob, 10, 70)
+    move(bob, 300)
+    pie(bob, 12, 70)
+    bob.hideturtle()
+    turtle.mainloop()
+
+if __name__== '__main__':
+    main()

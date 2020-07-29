@@ -1,0 +1,27 @@
+import time
+
+# this function returns the time of day in hrs, min, and secs, plus the
+# number of days since the epoch
+def time_report():
+    total_secs = int(time.time())
+    total_mins = total_secs // 60
+    total_hrs = total_mins // 60
+    total_days = total_hrs // 24
+    total_yrs = int(total_days // 365.25)
+
+    secs_today = total_secs % (total_days * 24 * 60 * 60)
+    mins_today = secs_today // 60
+    hrs_today = mins_today // 60
+
+    curr_hrs = hrs_today
+    curr_mins = mins_today % (hrs_today * 60)
+    curr_secs = secs_today % (mins_today * 60)
+
+    print(f'The current time is {curr_hrs}:{curr_mins}:{curr_secs} GMT.')
+    print(f'It has been {total_days} days since the epoch.')
+
+def main():
+    time_report()
+
+if __name__ == '__main__':
+    main()
