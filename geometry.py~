@@ -1,0 +1,17 @@
+import math
+
+"""
+returns the length of the hypotenus of the right triangle formed by the given
+lengths of the other two legs
+"""
+def hypotenus_of(a=3, b=4):
+    return math.sqrt(a**2 + b**2)
+
+
+def main():
+    a = int(input("give me a: "))
+    b = int(input("give me b: "))
+    print("the hypotenus is length", hypotenus_of(a, b))
+
+if __name__ == '__main__':
+    main()
