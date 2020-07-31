@@ -33,6 +33,7 @@ def is_power(a, b):
         return a == 1
     
     if a % b != 0:
+        return False
     return is_power(a / b, b)
 
 def gcd(a, b):
