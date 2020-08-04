@@ -58,37 +58,6 @@ def print_long_words(filename):
             print(word, end=' ')
     print('\n')
 
-# prints words with letter occurrences like this aabbcc at any point
-def print_triple_doubles(filename):
-    fin = open(filename)
-    print("Triple-Double(s) Found:", end=' ')
-    for line in fin:
-        word = line.strip()
-        # first, find all doubles in word
-        doubles_list = []
-        curr = 0
-        prev = 0
-        while curr < len(word):
-            if curr != prev and word[curr] == word[prev]:
-                doubles_list.append(prev)
-                prev = curr + 1
-                curr = curr + 2
-            else:
-                prev = curr
-                curr = curr + 1
-        # next, compared indices of first ch of each found double
-        first = 0
-        second = 1
-        third = 2
-        while third < len(doubles_list):
-            if (doubles_list[third] - doubles_list[second] == 2 and
-                doubles_list[second] - doubles_list[first] == 2):
-                print(word, end=' ')
-                break
-            third += 1
-            second += 1
-            first += 1
-
 def uses_all(word, matchlist):
     return uses_only(matchlist, word)
 
@@ -97,5 +66,3 @@ def uses_only(word, whitelist):
         if ch not in whitelist:
             return False
     return True
-
-print_triple_doubles('words.txt')
