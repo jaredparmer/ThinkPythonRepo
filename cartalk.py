@@ -3,7 +3,7 @@ from str_fns import is_palindrome
 # prints words with letter occurrences like this aabbcc at any point
 def puzzler_1(filename):
     fin = open(filename)
-    print("Triple-Double(s) Found:", end=' ')
+    print("Triple-Double(s) Found:")
     for line in fin:
         word = line.strip()
         # first, find all doubles in word
@@ -25,7 +25,7 @@ def puzzler_1(filename):
         while third < len(doubles_list):
             if (doubles_list[third] - doubles_list[second] == 2 and
                 doubles_list[second] - doubles_list[first] == 2):
-                print(word, end=' ')
+                print(word)
                 break
             third += 1
             second += 1
@@ -50,7 +50,7 @@ palindromic!
 "The question is, what was on the odometer when I first looked?"
 """
 def puzzler_2():
-    print("solutions to the puzzler: ")
+    print("Palindromic Odometers: ")
     # this range isn't quite right since a leading zero (e.g., 012321) is valid
     # can fix with str.zfill(6) for all 0 <= i < 100000
     for i in range(100000, 999997):
@@ -64,5 +64,64 @@ def puzzler_2():
             is_palindrome(fourth)):
             print(first)
 
+""" Identifies the age of the child when her age and the age of her parent
+are palindromic, have been palindromic five times before, and can be
+palindromic two more times, assuming the parent will not live beyond 120.
+"""
 def puzzler_3():
+    print("The Many-Reversible Age of the Daughter:")
+    # these two lists track, respectively, the differences found in palin-
+    # dromic age pairs, and the number of times that difference shows up
+    diff_list = []
+    count_list= []
 
+    # step one: fill the above two lists for all possible parent ages,
+    # assuming no parent lives past 120
+    for parent in range(1, 121):
+        # the child's age is set to the palindromic age of the parent
+        child = get_child(parent)
+
+        # guardian: make sure child is younger than parent
+        if child >= parent:
+            continue
+        diff = parent - child
+        if diff in diff_list:
+            # difference has already occurred; increase corresponding count
+            index = diff_list.index(diff)
+            count_list[index] = count_list[index] + 1
+        else:
+            # difference is new; add to list and add corresponding count of 1
+            diff_list.append(diff)
+            count_list.append(1)
+
+    # step two: find difference with exactly 8 occurrences, assuming there
+    # will only be at most one such difference
+    magic_diff = -1
+    for i in count_list:
+        if count_list[i] == 8:
+            magic_diff = diff_list[i]
+
+    # step three: recover parents with magic_diff, pick 6th, recover child age
+    if magic_diff == -1:
+        print("No solution!")
+    else:
+        magic_count = 0
+        for parent in range(1, 121):
+            child = get_child(parent)
+            # guardian: make sure child is younger than parent
+            if child >= parent:
+                continue
+            if parent - child == magic_diff:
+                magic_count += 1
+                if magic_count == 6:
+                    print(child)
+
+""" helper function for puzzler_3() that returns the age of a child that is
+palindromic of the given parent age, as an int
+"""
+def get_child(parent):
+    return int(str(parent)[::-1])
+
+puzzler_1('words.txt')
+puzzler_2()
+puzzler_3()
