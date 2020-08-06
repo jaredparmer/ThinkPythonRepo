@@ -21,15 +21,19 @@ def in_bisect(t, target):
             return in_bisect(t[index + 1:], target)
     return False
 
-t = load_words('words.txt')
-t.sort()
-target = ''
-
-while target != 'get me out!':
+def main():
+    t = load_words('words.txt')
+    t.sort()
     target = input("Give me a word ('get me out!' to quit): ")
-    if in_bisect(t, target):
-        print(f"Found it! '{target}' is a valid word.")
-    else:
-        print(f"Sorry, '{target}' is not a word!")
 
-print("Have a good day!")
+    while target != 'get me out!':
+        if in_bisect(t, target):
+            print(f"Found it! '{target}' is a valid word.")
+        else:
+            print(f"Sorry, '{target}' is not a word!")
+        target = input("Give me a word ('get me out!' to quit): ")
+
+    print("Have a good day!")
+
+if __name__ == '__main__':
+    main()

@@ -12,24 +12,26 @@ def in_bisect(t, target):
         # target word found!
         return True
     # word not found; recurse if there are more words to check
-    while index != 0:
-        if target < t[index]:
-            # check first half of wordlist
-            return in_bisect(t[:index], target)
-        else:
-            # check second half of wordlist
-            return in_bisect(t[index + 1:], target)
-    return False
-
-t = load_words('words.txt')
-t.sort()
-target = input("Give me a word ('get me out!' to quit): ")
-
-while target != 'get me out!':
-    if in_bisect(t, target):
-        print(f"Found it! '{target}' is a valid word.")
+    if target < t[index]:
+        # check first half of wordlist
+        return in_bisect(t[:index], target)
     else:
-        print(f"Sorry, '{target}' is not a word!")
+        # check second half of wordlist
+        return in_bisect(t[index + 1:], target)
+
+def main():
+    t = load_words('words.txt')
+    t.sort()
     target = input("Give me a word ('get me out!' to quit): ")
 
-print("Have a good day!")
+    while target != 'get me out!':
+        if in_bisect(t, target):
+            print(f"Found it! '{target}' is a valid word.")
+        else:
+            print(f"Sorry, '{target}' is not a word!")
+        target = input("Give me a word ('get me out!' to quit): ")
+
+    print("Have a good day!")
+
+if __name__ == '__main__':
+    main()
