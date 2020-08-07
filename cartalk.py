@@ -1,4 +1,6 @@
 from str_fns import is_palindrome
+from dict_fns import load_pronunciation_dict
+from dict_fns import load_words_dict
 
 # prints words with letter occurrences like this aabbcc at any point
 def puzzler_1(filename):
@@ -122,6 +124,33 @@ palindromic of the given parent age, as an int
 def get_child(parent):
     return int(str(parent)[::-1])
 
-puzzler_1('words.txt')
-puzzler_2()
-puzzler_3()
+def puzzler_4():
+    word_dict = load_words_dict()
+    pron_dict = load_pronunciation_dict()
+    found = 0
+
+    for word in word_dict:
+        word_1 = word[1:]
+        word_2 = word[0] + word[2:]
+        if (word_1 in word_dict and 
+            word_2 in word_dict and
+            homophones(word, word_1, pron_dict) and
+            homophones(word, word_2, pron_dict)):
+            found += 1
+            if found == 1:
+                print("Super homophonic words found:")
+            print(word, word_1, word_2)
+
+    if found == 0:
+        print("No super homophonic words found! :(")
+
+""" helper function for puzzler_4(). This function is 'dumb' in that it will
+say the same word is a homophone with itself. The caller should thus pre-
+screen the words for identity. Importantly, the CMU pronunciation dictionary
+stores words with multiple pronunciations as distinct words (e.g., 'abdomen'
+and 'abdomen(1)'), so identity cannot be straightforwardly checked with '=='.
+"""
+def homophones(word1, word2, pron_d):
+    if word1 not in pron_d or word2 not in pron_d:
+        return False
+    return pron_d[word1] == pron_d[word2]

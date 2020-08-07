@@ -1,31 +1,22 @@
 from list_fns import load_words_append as load_words_list
 from inlist import in_bisect as list_search
+from str_fns import rotate
 import time
 
-def histogram(str):
-    d = dict()
-    for ch in str:
-        d[ch] = d.get(ch, 0) + 1
-    return d
-
-def invert_dict(d):
-    inverse = dict()
-    for key in d:
-        val = d[key]
-        inverse.setdefault(val)
-        if val not in inverse:
-            inverse[val] = [key]
-        else:
-            inverse[val].append(key)
-    return inverse
-
-def load_words_dict(filename):
-    fin = open(filename)
-    d = dict()
-    for word in fin:
-        word.strip()
-        d[word] = 1
-    return d
+# memoized Ackermann function of two positive integers
+# quickly exceeds recursion depth limits (whenever m > 3, e.g.)!
+# could be improved. see: https://stackoverflow.com/questions/13086568/memoization-of-ackermann-function
+known = {}
+def ack_memo(m, n):
+    if (m, n) in known:
+        pass
+    elif m == 0:
+        known[m, n] = n + 1
+    elif n == 0:
+        known[m, n] = ack_memo(m - 1, 1)
+    else:
+        known[m, n] = ack_memo(m - 1, ack_memo(m, n - 1))
+    return known[m, n]
 
 # precondition, given list t is sorted
 def compare_searches(t, d):
@@ -55,11 +46,55 @@ def compare_searches(t, d):
 
     print("Have a good day!")
 
-def main():
-    d = load_words_dict('words.txt')
-    t = load_words_list('words.txt')
-    t.sort()
-    compare_searches(t, d)
+def print_rotations(word_dict):
+    for word in word_dict:
+        for i in range(1, 14):
+            rotated = rotate(word, i)
+            if rotated in word_dict:
+                print(f"{word} rotated {i} is {rotated}")
 
-if __name__ == '__main__':
-    main()
+# checks a given list for duplicates, using a dict to do so
+def has_duplicates(t):
+    d = dict()
+    for element in t:
+        if element in d:
+            return True
+        d[element] = 1
+    return False
+
+def histogram(str):
+    d = dict()
+    for ch in str:
+        d[ch] = d.get(ch, 0) + 1
+    return d
+
+def invert_dict(d):
+    inverse = dict()
+    for key in d:
+        val = d[key]
+        inverse.setdefault(val, key)
+    return inverse
+
+def load_pronunciation_dict(filename='c07b.txt'):
+    fin = open(filename)
+    d = dict()
+    for line in fin:
+        if line[:3] == ';;;':
+            """ IMPORTANT: comment markers change over dict version;
+            this is for version 0.7b specifically.
+            """
+            # line is a comment
+            continue
+        t = line.split()
+        word = t[0].lower()
+        pron = ' '.join(t[1:])
+        d[word] = pron
+    return d
+
+def load_words_dict(filename='words.txt'):
+    fin = open(filename)
+    d = dict()
+    for word in fin:
+        word = word.strip()
+        d[word] = None
+    return d
