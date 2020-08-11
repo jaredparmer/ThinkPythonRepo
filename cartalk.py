@@ -33,6 +33,7 @@ def puzzler_1(filename):
             second += 1
             first += 1
 
+
 """ solves the following Car Talk puzzler:
 
 "I was driving on the highway the other day and I happened to notice my
@@ -66,6 +67,7 @@ def puzzler_2():
             is_palindrome(fourth)):
             print(first)
 
+
 """ Identifies the age of the child when her age and the age of her parent
 are palindromic, have been palindromic five times before, and can be
 palindromic two more times, assuming the parent will not live beyond 120.
@@ -81,7 +83,7 @@ def puzzler_3():
     # assuming no parent lives past 120
     for parent in range(1, 121):
         # the child's age is set to the palindromic age of the parent
-        child = get_child(parent)
+        child = child_age(parent)
 
         # guardian: make sure child is younger than parent
         if child >= parent:
@@ -109,7 +111,7 @@ def puzzler_3():
     else:
         magic_count = 0
         for parent in range(1, 121):
-            child = get_child(parent)
+            child = child_age(parent)
             # guardian: make sure child is younger than parent
             if child >= parent:
                 continue
@@ -118,11 +120,13 @@ def puzzler_3():
                 if magic_count == 6:
                     print(child)
 
+
 """ helper function for puzzler_3() that returns the age of a child that is
 palindromic of the given parent age, as an int
 """
-def get_child(parent):
+def child_age(parent):
     return int(str(parent)[::-1])
+
 
 def puzzler_4():
     word_dict = load_words_dict()
@@ -144,6 +148,7 @@ def puzzler_4():
     if found == 0:
         print("No super homophonic words found! :(")
 
+
 """ helper function for puzzler_4(). This function is 'dumb' in that it will
 say the same word is a homophone with itself. The caller should thus pre-
 screen the words for identity. Importantly, the CMU pronunciation dictionary
@@ -154,3 +159,65 @@ def homophones(word1, word2, pron_d):
     if word1 not in pron_d or word2 not in pron_d:
         return False
     return pron_d[word1] == pron_d[word2]
+
+
+""" this solves exercise 12.4 from Downey's _Think Python_ 2nd ed. It finds the
+longest reducible English word. See helper function is_reducible for defn of
+reducibility.
+"""
+def puzzler_5():
+    d = load_words_dict()
+    # add single-letter words and empty string to d
+    d[''] = None
+    d['i'] = None
+    d['a'] = None
+
+    reducibles = []
+    for word in d:
+        if is_reducible(word, d):
+            reducibles.append((len(word), word))
+
+    reducibles.sort(reverse=True)
+    print("Here are the ten longest reducible words:")
+    for i in range(10):
+        print(reducibles[i])
+
+""" helper function for puzzler_5(). Takes a given parent word and computes a
+list of all the children words that can be formed by removing one letter.
+"""
+def get_children(parent, d):
+    children = []
+    for i in range(len(parent)):
+        candidate = parent[:i]
+        if i < len(parent) - 1:
+            candidate += parent[i+1:]
+        if candidate in d:
+            children.append(candidate)
+
+    return children
+
+
+""" helper function for puzzler_5(). a word is 'reducible' if a single letter
+can be removed from it (from anywhere in the word) to produce a new valid word,
+which is itself reducible. The empty string is reducible and is the base case.
+This function is memoized.
+"""
+known = {}
+def is_reducible(word, d):
+    if word in known:
+        return known[word]
+    if len(word) == 0:
+        # base case: the empty string is reducible
+        known[word] = True
+        return known[word]
+
+    # recursion case: the word is reducible if one of its children is
+    children = get_children(word, d)
+    for child in children:
+        if is_reducible(child, d):
+            known[word] = True
+            return known[word]
+
+    # word is not base case and none of children are reducible
+    known[word] = False
+    return known[word]
