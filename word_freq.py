@@ -1,15 +1,15 @@
-""" this solves exercises 13.1 through 13.5 of Downey, _Think Python_ 2nd ed
+""" this solves exercises 13.1 through 13.7 of Downey, _Think Python_ 2nd ed
 """
 
 import string
 import random
-#from tuple_fns import sum_all
+from bisect import bisect
 from dict_fns import load_words_dict as load_dict
 
 
 """ takes a given histogram dictionary and chooses n words from it with a prob-
-ability in proportion to that words's relative frequency. Returns n words as a
-list.
+ability in proportion to that words's relative frequency. Returns n words as
+a list.
 
 precondition: given dictionary is a histogram: strings as keys and ints as
 values, where the latter are interpreted to be frequencies of the former
@@ -26,6 +26,32 @@ def choose_from_hist(d, n=1):
 
     return random.choices(population=list(d.keys()), weights=weight_list, k=n)
 
+
+""" exercise 13.7. Same as choose_from_hist but uses cumulative frequencies.
+"""
+def choose_from_hist_cum(d, n=1):
+    word_list = []
+    weight_list = []
+    total_freq = 0
+
+    for word, freq in d.items():
+        word_list.append(word)
+        total_freq += freq
+        weight_list.append(total_freq)
+
+    print("sanity check")
+    print("sum of freqs: " + str(sum(d.values())))
+    print("total_freq: " + str(total_freq))
+    print("cum weight of last element: " + str(weight_list[-1]))
+
+    choices = []
+    for i in range(n):
+        x = random.randint(0, total_freq - 1)
+        index = bisect(weight_list, x)
+        choices.append(word_list[index])
+
+    return choices
+        
 
 """ reads a text into a histogram dictionary that records each word used as
 a key, and the frequency of the word as the value. Ignores header data from
@@ -87,11 +113,12 @@ def print_not_in_dict(hist, filename='words.txt'):
             not_in_dict.append(word)
 
     print("Words not found in dictionary: " + str(len(not_in_dict)))
-    n = input("How many would you like to see? ('A' for all) ")
-    if n == 'A':
+    answer = input("How many would you like to see? ('A' for all) ")
+    if answer == 'A':
         pass
     else:
-        for word in not_in_dict[:int(n)]:
+        n = int(answer)
+        for word in not_in_dict[:n]:
             print(word, end=' ')
         print('\n')
 
@@ -117,7 +144,7 @@ filename = 'emma.txt'
 words = load_file(filename, True)
 summarize_file(words)
 sample_size = 100
-randoms = choose_from_hist(words, sample_size)
+randoms = choose_from_hist_cum(words, sample_size)
 print(f"The following {sample_size} random words were chosen from the text:")
 for word in randoms[:sample_size]:
     print(word, end=' ')
