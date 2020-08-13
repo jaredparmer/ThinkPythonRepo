@@ -47,9 +47,7 @@ def analyze(filename='lorem_ipsum.txt', gutenberg=False, prefix_len=2):
         for j in range(1, prefix_len):
             prefix = prefix + ' ' + word_list[j + i]
         suffix = word_list[i + prefix_len]
-
-        print(prefix + ', ' + suffix)
-
+        
         # load into dict
         if prefix in analysis and suffix not in analysis[prefix]:
             analysis[prefix].append(suffix)
@@ -57,6 +55,19 @@ def analyze(filename='lorem_ipsum.txt', gutenberg=False, prefix_len=2):
             analysis[prefix] = [suffix]
 
     return analysis
+
+
+def generate(analysis, length=25):
+    # pick start word
+    prefix_list = list(analysis.keys())
+    prefix = random.choice(prefix_list)
+    print(prefix, end=' ')
+    
+    for i in range(length):
+        suffix = random.choice(analysis[prefix])
+        print(suffix, end=' ')
+        prefix_slice = prefix.partition(' ')[2]
+        prefix = prefix_slice + ' ' + suffix
 
 
 """ helper function for analyze(). precondition: file is open
@@ -67,5 +78,5 @@ def skip_gutenberg_header(fin):
             break
 
 
-d = analyze('bee.txt', False, 2)
-##summarize_file(d)
+d = analyze('emma.txt', True, 3)
+generate(d, 24)
