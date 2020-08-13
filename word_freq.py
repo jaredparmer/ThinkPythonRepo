@@ -39,11 +39,6 @@ def choose_from_hist_cum(d, n=1):
         total_freq += freq
         weight_list.append(total_freq)
 
-    print("sanity check")
-    print("sum of freqs: " + str(sum(d.values())))
-    print("total_freq: " + str(total_freq))
-    print("cum weight of last element: " + str(weight_list[-1]))
-
     choices = []
     for i in range(n):
         x = random.randint(0, total_freq - 1)
@@ -115,12 +110,13 @@ def print_not_in_dict(hist, filename='words.txt'):
     print("Words not found in dictionary: " + str(len(not_in_dict)))
     answer = input("How many would you like to see? ('A' for all) ")
     if answer == 'A':
-        pass
+        n = len(not_in_dict)
     else:
         n = int(answer)
-        for word in not_in_dict[:n]:
-            print(word, end=' ')
-        print('\n')
+
+    for word in not_in_dict[:n]:
+        print(word, end=' ')
+    print('\n')
 
 """ precondition: file is open
 """
@@ -140,12 +136,17 @@ def summarize_file(words):
     print_not_in_dict(words)
 
 
-filename = 'emma.txt'
-words = load_file(filename, True)
-summarize_file(words)
-sample_size = 100
-randoms = choose_from_hist_cum(words, sample_size)
-print(f"The following {sample_size} random words were chosen from the text:")
-for word in randoms[:sample_size]:
-    print(word, end=' ')
-print('\n')
+def main():
+    filename = 'emma.txt'
+    words = load_file(filename, True)
+    summarize_file(words)
+    sample_size = 100
+    randoms = choose_from_hist_cum(words, sample_size)
+    print(f"The following {sample_size} random words were chosen from the text:")
+    for word in randoms[:sample_size]:
+        print(word, end=' ')
+    print('\n')
+
+
+if __name__ == "__main__":
+    main()
