@@ -67,7 +67,7 @@ def generate(analysis, length=25):
         suffixes = analysis[prefix]
         if suffixes == None:
             # end of text hit; start over
-            generate(analysis, length - 1)
+            generate(analysis, length - i)
             return
 
         suffix = random.choice(suffixes)
