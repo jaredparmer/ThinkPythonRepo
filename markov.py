@@ -49,7 +49,7 @@ def analyze(filename='lorem_ipsum.txt', gutenberg=False, prefix_len=2):
         suffix = word_list[i + prefix_len]
         
         # load into dict
-        if prefix in analysis and suffix not in analysis[prefix]:
+        if prefix in analysis:
             analysis[prefix].append(suffix)
         else:
             analysis[prefix] = [suffix]
@@ -64,7 +64,13 @@ def generate(analysis, length=25):
     print(prefix, end=' ')
     
     for i in range(length):
-        suffix = random.choice(analysis[prefix])
+        suffixes = analysis[prefix]
+        if suffixes == None:
+            # end of text hit; start over
+            generate(analysis, length - 1)
+            return
+
+        suffix = random.choice(suffixes)
         print(suffix, end=' ')
         prefix_slice = prefix.partition(' ')[2]
         prefix = prefix_slice + ' ' + suffix
