@@ -118,6 +118,7 @@ def print_not_in_dict(hist, filename='words.txt'):
         print(word, end=' ')
     print('\n')
 
+
 """ precondition: file is open
 """
 def skip_gutenberg_header(fin):
