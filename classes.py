@@ -11,7 +11,7 @@ class Point:
 class Rectangle:
     """ represents a rectangle.
 
-    attributes: width, height, corner (as a Point).
+    attributes: width, height, (top-left) corner (as a Point).
     """
 
 
@@ -38,14 +38,3 @@ def move_w_copy(rect, dx, dy):
 
 def point_str(p):
     return '(' + str(p.x) + ', ' + str(p.y) + ')'
-    
-
-p1 = Point()
-p2 = Point()
-p1.x = 3.0
-p1.y = 5.0
-p2.x = 7.0
-p2.y = -9.0
-
-print(f"The difference between {point_str(p1)} and {point_str(p2)} "
-      f"is {distance(p1, p2)}.")
