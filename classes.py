@@ -6,6 +6,31 @@ import copy
 
 class Point:
     """ represents a point in 2d space. """
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+    def __add__(self, other):
+        if isinstance(other, tuple):
+            return self.add_tuple(other)
+        elif isinstance(other, Point):
+            return self.add_Point(other)
+        else:
+            raise TypeError('only tuples or Points can be added to a Point')
+
+    def add_tuple(self, other):
+        return Point(self.x + other[0], self.y + other[1])
+    
+    def add_Point(self, other):    
+        return Point(self.x + other.x, self.y + other.y)
+
+    """ allows Point object to be on right side of '+' operator
+    """
+    def __radd__(self, other):
+        return self.__add__(other)
 
 
 class Rectangle:
@@ -20,6 +45,19 @@ class Time:
 
     attributes: hour, minute, second
     """
+    def __init__(self, hour=0, minute=0, second=0):
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+
+    def __str__(self):
+        return f"{self.hour:02d}:{self.minute:02d}:{self.second:02d}"
+
+    def print_time(self):
+        print(f"{self.hour:02d}:{self.minute:02d}:{self.second:02d}")
+
+    def time_to_int(self):
+        return self.second + self.minute*60 + self.hour*3600
 
 
 def add_times(t1, t2):
