@@ -22,6 +22,10 @@ class Time:
         hours, minutes = divmod(minutes, 60)
         return '%.2d:%.2d:%.2d' % (hours, minutes, seconds)
 
+    def __lt__(self, other):
+        assert self.is_valid() and other.is_value()
+        return self.seconds < other.seconds
+
     def print_time(self):
         """Prints a string representation of the time."""
         print(str(self))
