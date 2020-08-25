@@ -52,6 +52,8 @@ class Deck:
         return self.cards.pop()
 
     def draw(self, hand, n=1):
+        if n > len(self):
+            raise IndexError("not enough cards in deck!")
         for i in range(n):
             hand.add_card(self.pop_card())
 
@@ -85,9 +87,10 @@ class Hand(Deck):
             res.append(str(card))
         return self.label + ':\n\t' + '\n\t'.join(res)
 
-d = Deck()
-d.shuffle()
-hands = d.deal(5, 7)
-for hand in hands:
-    print(hand)
-print("deck: " + str(d))
+if __name__ == '__main__':
+    d = Deck()
+    d.shuffle()
+    hands = d.deal(5, 7)
+    for hand in hands:
+        print(hand)
+    print("deck: " + str(d))
