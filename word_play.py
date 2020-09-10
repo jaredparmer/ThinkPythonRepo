@@ -11,6 +11,13 @@ def avoids(words, blacklist):
     return not any(letter in blacklist for letter in word)
 """
 
+"""
+with sets.
+
+def avoids(words, blacklist):
+    return set(words) == set(words) - set(blacklist)
+"""
+
 def has_no_e(word):
     return 'e' not in word
 
@@ -79,3 +86,10 @@ def uses_only(word, whitelist):
         if ch not in whitelist:
             return False
     return True
+
+""" with sets.
+
+def uses_only(word, whitelist):
+    return set(word) <= set(whitelist)
+
+"""

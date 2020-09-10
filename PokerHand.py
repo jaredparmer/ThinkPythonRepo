@@ -101,7 +101,7 @@ class PokerHand(Hand):
         """ special case: 10-J-Q-K-A straights, which is special because Aces
         are coded as rank 1, but should also be considered to have highest
         rank. """
-        if {1, 10, 11, 12, 13}.issubset(set(ranks)):
+        if {1, 10, 11, 12, 13} <= set(ranks):
             return True
         
         return False
