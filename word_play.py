@@ -4,6 +4,13 @@ def avoids(word, blacklist):
             return False
     return True
 
+"""
+with a generator expression.
+
+def avoids(words, blacklist):
+    return not any(letter in blacklist for letter in word)
+"""
+
 def has_no_e(word):
     return 'e' not in word
 
@@ -60,6 +67,12 @@ def print_long_words(filename):
 
 def uses_all(word, matchlist):
     return uses_only(matchlist, word)
+
+""" with a generator expression.
+
+def uses_all(word, matchlist):
+    return all(letter in matchlist for letter in word)
+"""
 
 def uses_only(word, whitelist):
     for ch in word:
