@@ -124,7 +124,7 @@ class PokerHand(Hand):
             else:
                 spades.add_card(card)
 
-          # need rank histogram for has_straight(), so
+        # need rank histogram for has_straight(), so
         clubs.setup()
         diamonds.setup()
         hearts.setup()
